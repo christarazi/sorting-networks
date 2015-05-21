@@ -6,7 +6,18 @@ My C++11 solution to [/r/dailyprogrammer's intermediate problem #215](http://www
 ## What does this program do?
 Basically, this program verifies the sorting network given by the comparators in the text file. It does this by generating every binary string from 1 to 2<sup>number of wires</sup> ([zero-one principle](http://en.wikipedia.org/wiki/Sorting_network#Zero-one_principle)). Then, according to the configuration in the text file, we sort each string by swapping. Then we do another run to make sure the swaps did their jobs. If we find that there are still bits out of order, then we know we have an invalid sorting network. 
 
-## Simple Explanation
+For example:
+* Let's have `4` be our number of wires and `5` be the total number of comparators.
+* That means we need to iterate and generate 2<sup>4</sup> or up to 16 binary strings for each number.
+* So let's pick `10` for example's sake. `10` in binary is **`1010`**.
+* Now, we iterate through the comparators, trying to find the configuration that will correctly sort **`1010`** to **`0011`**.
+* First comparator is `(0, 2)`. This means take the first `(0th`) bit in our binary string and check if it is greater than our third `(2nd)` bit. So we get `1` and `1` as a match up and there is no need to swap.
+* Next, we have `(1, 3)`. Take the second and last bits and compare. We get `0` and `0`. No swap.
+* Next, we have `(0, 1)`. Take the first and second bits and compare. We get `1` and `0`. Now we swap! Our binary string now looks like **`0110`**. Still not done!
+* Next, we have `(2, 3)`. Take third and last bits and compare. We get `1` and `0`. We swap! Our binary string now looks like **`0011`** and we have finished our iteration for number `10`!
+* Lastly, we continue this process all the way up to 2<sup>4</sup> or up to 16, and if every binary string is correctly sorted, then the network is valid! If it fails once, the network is invalid. All thanks to the [zero-one principle](http://en.wikipedia.org/wiki/Sorting_network#Zero-one_principle).
+
+## Simple Explanation of Sorting Network
 Still don't grasp it quite yet? No problem. Let's take a look at our `sample1.txt`:
 ```
 4 5
@@ -16,7 +27,7 @@ Still don't grasp it quite yet? No problem. Let's take a look at our `sample1.tx
 2 3
 1 2
 ```
-The first line of every text file contains: number of wires in network and the total number of comparators, respectively. The rest of the lines are just configuration of the comparators.
+The first line of every text file contains: number of wires in network and the total number of comparators, respectively. The rest of the lines are just the configuration of the comparators.
 Given the configuration, the sorting network is laid out like this, with the left column being the wire numbers:
 
 ![Image](http://i.imgur.com/UfElsg6.png)
